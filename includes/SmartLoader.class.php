@@ -67,11 +67,14 @@ if (!class_exists('SmartLoader')) {
                 add_action($prop[0] . "_inited", array(new SmartCaller(array("SmartLoader", "loadModule"), $module, $prop[2]), "call"));
             }
             do_action("SmartLoader_inited");
+            do_action("SmartLoader_end");
         }
 
         public static function loadModule($module, $includeDir) {
             //Load all files from includes dir
             SmartLoader::loadIncludes($includeDir);
+            //Call SmartLoader_module_inited action
+            do_action("SmartLoader_module_inited", $module);
             //Call "$module_inited" action for start load dependency
             do_action($module . "_inited");
         }
